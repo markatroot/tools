@@ -1,0 +1,44 @@
+@use 'fluent' as f;
+
+:host { display: flex; flex-direction: column; gap: 4px; }
+label { @include f.label; }
+
+// Mirror and textarea must share every metric so the colours line up with the caret.
+%metrics {
+  padding: 8px 10px; margin: 0;
+  font-family: var(--ip-mono); font-size: 13px; line-height: 22px;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+
+.shell { @include f.input-shell; position: relative; }
+
+.mirror {
+  @extend %metrics;
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  .valid { color: var(--ip-success-fg); }
+  .invalid { color: var(--ip-danger-bar); text-decoration: underline wavy var(--ip-danger-bar); }
+  .separator { color: var(--ip-fg-3); }
+}
+
+textarea {
+  @extend %metrics;
+  position: relative; display: block; width: 100%;
+  border: 0; border-radius: var(--ip-radius-m); background: transparent;
+  resize: none; overflow: hidden; outline: none;
+  color: transparent; caret-color: var(--ip-fg-1);
+  &::selection { background: rgba(15, 108, 189, .25); }
+}
+
+.legend {
+  display: flex; gap: 12px; @include f.caption;
+  span { display: flex; align-items: center; gap: 4px; }
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot.valid { background: var(--ip-success-fg); }
+.dot.invalid { background: var(--ip-danger-bar); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.pill { @include f.pill; }
+.neutral { background: var(--ip-bg-3); color: var(--ip-fg-2); }
+.brand { background: var(--ip-brand-bg-2); color: var(--ip-brand); }
+.danger { background: var(--ip-danger-bg); color: var(--ip-danger-fg); }

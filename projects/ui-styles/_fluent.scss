@@ -1,0 +1,121 @@
+// Fluent 2 tokens + mixins shared by every app in the workspace.
+// Use from any component:  @use 'fluent' as f;
+
+$font: 'Segoe UI Variable Text', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+$mono: Consolas, 'Cascadia Mono', ui-monospace, monospace;
+
+@mixin tokens {
+  :root {
+    --ip-font: #{$font};
+    --ip-mono: #{$mono};
+
+    --ip-fg-1: #242424;
+    --ip-fg-2: #424242;
+    --ip-fg-3: #616161;
+    --ip-fg-disabled: #bdbdbd;
+
+    --ip-bg-canvas: #f5f5f5;
+    --ip-bg-1: #ffffff;
+    --ip-bg-1-hover: #f5f5f5;
+    --ip-bg-1-pressed: #e0e0e0;
+    --ip-bg-2: #fafafa;
+    --ip-bg-3: #f0f0f0;
+    --ip-bg-disabled: #f0f0f0;
+
+    --ip-stroke-1: #d1d1d1;
+    --ip-stroke-1-hover: #c7c7c7;
+    --ip-stroke-2: #e0e0e0;
+    --ip-stroke-3: #f0f0f0;
+    --ip-stroke-accessible: #616161;
+    --ip-stroke-focus: #000000;
+
+    --ip-brand: #0f6cbd;
+    --ip-brand-hover: #115ea3;
+    --ip-brand-pressed: #0c3b5e;
+    --ip-brand-bg-2: #ebf3fc;
+    --ip-brand-bg-3: #f5f9fd;
+
+    --ip-danger-fg: #b10e1c;
+    --ip-danger-bg: #fdf3f4;
+    --ip-danger-bar: #c50f1f;
+    --ip-warning-fg: #bc4b09;
+    --ip-warning-bg: #fdf6f3;
+    --ip-warning-bar: #da3b01;
+    --ip-warning-stroke: #fdcfb4;
+    --ip-success-fg: #0e700e;
+    --ip-success-bg: #f1faf1;
+    --ip-success-bar: #107c10;
+
+    --ip-radius-s: 2px;
+    --ip-radius-m: 4px;
+    --ip-radius-l: 8px;
+    --ip-radius-circle: 999px;
+
+    --ip-shadow-2: 0 0 2px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .14);
+    --ip-shadow-4: 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .14);
+    --ip-shadow-8: 0 0 2px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .14);
+    --ip-shadow-16: 0 0 2px rgba(0, 0, 0, .12), 0 8px 16px rgba(0, 0, 0, .14);
+    --ip-shadow-64: 0 0 8px rgba(0, 0, 0, .12), 0 32px 64px rgba(0, 0, 0, .14);
+  }
+}
+
+@mixin focus-ring {
+  &:focus-visible { outline: 2px solid var(--ip-stroke-focus); outline-offset: 1px; }
+}
+
+@mixin caption { font-size: 12px; line-height: 16px; color: var(--ip-fg-3); }
+@mixin label { font-weight: 600; font-size: 14px; line-height: 20px; }
+
+@mixin button {
+  height: 32px; padding: 0 12px; flex: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 1px solid var(--ip-stroke-1); border-radius: var(--ip-radius-m);
+  background: var(--ip-bg-1); color: var(--ip-fg-1);
+  font: inherit; font-weight: 600; white-space: nowrap; cursor: pointer;
+  &:hover { background: var(--ip-bg-1-hover); border-color: var(--ip-stroke-1-hover); }
+  &:active { background: var(--ip-bg-1-pressed); }
+  &:disabled { background: var(--ip-bg-disabled); color: var(--ip-fg-disabled); border-color: var(--ip-stroke-2); cursor: not-allowed; }
+  @include focus-ring;
+}
+
+@mixin button-primary {
+  @include button;
+  border-color: transparent; background: var(--ip-brand); color: #fff;
+  &:hover { background: var(--ip-brand-hover); border-color: transparent; }
+  &:active { background: var(--ip-brand-pressed); }
+}
+
+@mixin button-subtle {
+  @include button;
+  border-color: transparent; background: transparent;
+  &:hover { border-color: transparent; }
+}
+
+@mixin icon-button($size: 32px) {
+  @include button-subtle;
+  width: $size; height: $size; padding: 0; color: var(--ip-fg-2);
+}
+
+@mixin input-shell {
+  background: var(--ip-bg-1);
+  border: 1px solid var(--ip-stroke-1); border-bottom-color: var(--ip-stroke-accessible);
+  border-radius: var(--ip-radius-m);
+  &:hover { border-color: var(--ip-stroke-1-hover); border-bottom-color: var(--ip-fg-2); }
+  &:focus-within { border-bottom-color: var(--ip-brand); box-shadow: inset 0 -1px 0 var(--ip-brand); }
+}
+
+@mixin select {
+  @include input-shell;
+  height: 32px; padding: 0 8px; font: inherit; color: var(--ip-fg-1); cursor: pointer;
+  &:focus { outline: none; }
+  @include focus-ring;
+}
+
+@mixin card {
+  background: var(--ip-bg-1); border-radius: var(--ip-radius-l); box-shadow: var(--ip-shadow-4);
+}
+
+@mixin pill {
+  display: inline-flex; align-items: center; white-space: nowrap;
+  font-size: 12px; line-height: 16px; padding: 2px 8px; border-radius: var(--ip-radius-circle);
+}

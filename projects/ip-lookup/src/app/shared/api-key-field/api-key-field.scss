@@ -1,0 +1,27 @@
+@use 'fluent' as f;
+
+:host { display: flex; flex-direction: column; gap: 4px; }
+label { @include f.label; }
+.req { color: var(--ip-danger-bar); }
+
+.shell {
+  @include f.input-shell;
+  height: 32px; padding: 0 2px 0 10px;
+  display: flex; align-items: center;
+}
+.icon { display: flex; color: var(--ip-fg-3); }
+input {
+  flex: 1; min-width: 0; height: 100%; padding: 0 8px;
+  border: 0; background: transparent; outline: none;
+  font-family: var(--ip-mono); font-size: 13px; color: var(--ip-fg-1);
+}
+.reveal { @include f.icon-button(28px); }
+
+.hint {
+  display: flex; justify-content: space-between; gap: 8px;
+  font-size: 12px; line-height: 16px;
+  a { white-space: nowrap; }
+}
+.neutral { color: var(--ip-fg-3); }
+.success { color: var(--ip-success-fg); }
+.warning { color: var(--ip-warning-fg); }

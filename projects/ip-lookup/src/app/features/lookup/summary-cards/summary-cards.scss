@@ -1,0 +1,21 @@
+@use 'fluent' as f;
+
+:host { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+
+.card {
+  @include f.card;
+  padding: 14px 16px; border: 1px solid transparent; text-align: left; color: inherit; cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  &:hover { box-shadow: var(--ip-shadow-8); }
+  &.on { background: var(--ip-brand-bg-2); border-color: var(--ip-brand); }
+  @include f.focus-ring;
+}
+.dot-wrap { width: 36px; height: 36px; flex: none; border-radius: 50%; display: grid; place-items: center; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.all { background: var(--ip-brand-bg-2); .dot { background: var(--ip-brand); } }
+.high { background: var(--ip-danger-bg); .dot { background: var(--ip-danger-bar); } }
+.suspicious { background: var(--ip-warning-bg); .dot { background: var(--ip-warning-bar); } }
+.clean { background: var(--ip-success-bg); .dot { background: var(--ip-success-bar); } }
+.text { display: flex; flex-direction: column; }
+.count { font-size: 28px; line-height: 36px; font-weight: 600; }
+.label { @include f.caption; }

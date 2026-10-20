@@ -1,0 +1,21 @@
+@use 'fluent' as f;
+
+@include f.tokens;
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  background: var(--ip-bg-canvas);
+  color: var(--ip-fg-1);
+  font-family: var(--ip-font);
+  font-size: 14px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--ip-brand); text-decoration: none; }
+a:hover { color: var(--ip-brand-hover); text-decoration: underline; }
+
+button, input, select, textarea { font: inherit; }

@@ -1,0 +1,11 @@
+{
+  "/abuseipdb": {
+    "target": "https://api.abuseipdb.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/abuseipdb": ""
+    },
+    "logLevel": "info"
+  }
+}

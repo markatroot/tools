@@ -1,0 +1,42 @@
+<div class="scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>IP address</th>
+        <th>Abuse score</th>
+        <th>Country</th>
+        <th>ISP</th>
+        <th class="num">Reports</th>
+        <th>Last reported</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows(); track row.r.ipAddress) {
+        <tr
+          tabindex="0"
+          [class.selected]="row.r.ipAddress === selectedIp()"
+          (click)="selectedIp.set(row.r.ipAddress)"
+          (keydown.enter)="selectedIp.set(row.r.ipAddress)">
+          <td>
+            <div class="mono">{{ row.r.ipAddress }}</div>
+            @if (row.flags.length) {
+              <div class="flags">
+                @for (f of row.flags; track f) { <span class="flag">{{ f }}</span> }
+              </div>
+            }
+          </td>
+          <td><ip-score-bar [score]="row.r.abuseConfidenceScore" /></td>
+          <td class="nowrap">{{ row.r.countryName ?? row.r.countryCode ?? '—' }}</td>
+          <td>
+            <div>{{ row.r.isp ?? '—' }}</div>
+            <div class="sub">{{ row.r.usageType }}</div>
+          </td>
+          <td class="num">{{ row.r.totalReports.toLocaleString() }}</td>
+          <td class="nowrap muted">{{ row.r.lastReportedAt | timeAgo }}</td>
+        </tr>
+      } @empty {
+        <tr><td colspan="6" class="muted none">No results in this group.</td></tr>
+      }
+    </tbody>
+  </table>
+</div>

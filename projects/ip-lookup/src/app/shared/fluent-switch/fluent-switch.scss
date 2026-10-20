@@ -1,0 +1,16 @@
+:host { display: block; }
+label { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+input { position: absolute; opacity: 0; width: 0; height: 0; }
+.track {
+  position: relative; flex: none; width: 40px; height: 20px; border-radius: 999px;
+  background: var(--ip-bg-1); border: 1px solid var(--ip-stroke-accessible);
+  transition: background .15s, border-color .15s;
+}
+.knob {
+  position: absolute; top: 3px; left: 3px; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--ip-fg-3); transition: left .15s, background .15s;
+}
+input:checked + .track { background: var(--ip-brand); border-color: var(--ip-brand); }
+input:checked + .track .knob { left: 23px; background: #fff; }
+label:hover input:checked + .track { background: var(--ip-brand-hover); }
+input:focus-visible + .track { outline: 2px solid var(--ip-stroke-focus); outline-offset: 2px; }

@@ -1,0 +1,11 @@
+@use 'fluent' as f;
+
+:host { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 16px; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; @include f.caption; }
+.btn { @include f.button; }
+pre {
+  margin: 0; padding: 12px 14px; max-height: 560px; overflow: auto;
+  border-radius: var(--ip-radius-m); background: var(--ip-bg-2); border: 1px solid var(--ip-stroke-2);
+  font-family: var(--ip-mono); font-size: 13px; line-height: 20px;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}

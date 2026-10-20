@@ -1,0 +1,27 @@
+@use 'fluent' as f;
+
+:host { display: block; }
+.scroll { overflow-x: auto; }
+table { width: 100%; min-width: 680px; border-collapse: collapse; }
+th {
+  text-align: left; font-weight: 600; padding: 10px 12px; white-space: nowrap;
+  border-bottom: 1px solid var(--ip-stroke-2);
+}
+td { padding: 10px 12px; vertical-align: top; border-bottom: 1px solid var(--ip-stroke-3); }
+tbody tr {
+  cursor: pointer;
+  &:hover { background: var(--ip-bg-1-hover); }
+  &.selected { background: var(--ip-brand-bg-2); box-shadow: inset 3px 0 0 var(--ip-brand); }
+  &:focus-visible { outline: 2px solid var(--ip-stroke-focus); outline-offset: -2px; }
+}
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.nowrap { white-space: nowrap; }
+.muted { color: var(--ip-fg-3); }
+.mono { font-family: var(--ip-mono); font-size: 13px; }
+.sub { @include f.caption; }
+.flags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.flag {
+  font-size: 10px; line-height: 14px; padding: 1px 6px; white-space: nowrap;
+  border: 1px solid var(--ip-stroke-1); border-radius: var(--ip-radius-m); color: var(--ip-fg-2);
+}
+.none { text-align: center; padding: 24px; }

@@ -1,0 +1,19 @@
+<label for="ip-list">IP addresses</label>
+<div class="shell">
+  <div class="mirror" aria-hidden="true">@for (s of segments(); track $index) {<span [class]="s.kind">{{ s.text }}</span>}&#8203;</div>
+  <textarea id="ip-list" [rows]="rows()" [value]="text()" (input)="onInput($event)" spellcheck="false"></textarea>
+</div>
+<div class="legend">
+  <span><i class="dot valid"></i>Valid</span>
+  <span><i class="dot invalid"></i>Invalid, will be skipped</span>
+</div>
+<div class="chips">
+  <span class="pill neutral">{{ parsed().tokens.length }} entries</span>
+  <span class="pill brand">{{ parsed().valid.length }} valid</span>
+  @if (parsed().invalid.length) {
+    <span class="pill danger">{{ parsed().invalid.length }} invalid</span>
+  }
+  @if (parsed().duplicates) {
+    <span class="pill neutral">{{ parsed().duplicates }} duplicate{{ parsed().duplicates > 1 ? 's' : '' }} removed</span>
+  }
+</div>

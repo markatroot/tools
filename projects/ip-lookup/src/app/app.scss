@@ -1,0 +1,17 @@
+@use 'fluent' as f;
+
+:host { display: block; min-height: 100vh; }
+
+.app-header {
+  height: 48px; padding: 0 20px;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--ip-bg-1); border-bottom: 1px solid var(--ip-stroke-2);
+}
+.logo {
+  width: 28px; height: 28px; border-radius: 6px;
+  display: grid; place-items: center;
+  background: var(--ip-brand); color: #fff;
+}
+.title { font-weight: 600; }
+.sub, .quota { @include f.caption; }
+.quota { margin-left: auto; }

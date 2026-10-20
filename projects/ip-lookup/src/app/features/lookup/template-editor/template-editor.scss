@@ -1,0 +1,82 @@
+@use 'fluent' as f;
+
+dialog {
+  width: min(1040px, calc(100vw - 40px)); max-height: calc(100vh - 40px);
+  padding: 0; border: 0; border-radius: var(--ip-radius-l);
+  background: var(--ip-bg-1); color: var(--ip-fg-1); box-shadow: var(--ip-shadow-64);
+  &::backdrop { background: rgba(0, 0, 0, .4); }
+}
+.surface { display: flex; flex-direction: column; }
+
+header {
+  padding: 20px 24px 16px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  h2 { margin: 0; font-size: 20px; line-height: 28px; font-weight: 600; }
+  p { margin: 2px 0 0; @include f.caption; }
+}
+.icon-btn { @include f.icon-button; }
+
+.body { padding: 0 24px 20px; display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+.editor-col { flex: 2 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.vars-col { flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+
+.caption { @include f.caption; }
+.label, label { @include f.label; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+
+.presets { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.preset {
+  height: 24px; padding: 0 10px; flex: none; white-space: nowrap; cursor: pointer;
+  border: 1px solid var(--ip-stroke-1); border-radius: 999px; background: var(--ip-bg-1); color: var(--ip-fg-2); font-size: 12px;
+  &:hover { border-color: var(--ip-brand); }
+  &.on { background: var(--ip-brand-bg-2); color: var(--ip-brand); border-color: var(--ip-brand); }
+  @include f.focus-ring;
+}
+
+%metrics {
+  padding: 10px 12px; margin: 0;
+  font-family: var(--ip-mono); font-size: 13px; line-height: 22px;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.shell { @include f.input-shell; position: relative; }
+.mirror {
+  @extend %metrics;
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  .text { color: var(--ip-fg-1); }
+  .variable { color: var(--ip-brand); background: var(--ip-brand-bg-2); border-radius: 3px; }
+  .unknown { color: var(--ip-danger-fg); background: var(--ip-danger-bg); border-radius: 3px; }
+}
+textarea {
+  @extend %metrics;
+  position: relative; display: block; width: 100%;
+  border: 0; background: transparent; resize: none; overflow: hidden; outline: none;
+  color: transparent; caret-color: var(--ip-fg-1);
+}
+.error { font-size: 12px; line-height: 16px; color: var(--ip-danger-fg); }
+
+.sep { display: flex; align-items: center; gap: 8px; label { @include f.caption; font-weight: 400; } }
+.select { @include f.select; height: 28px; font-size: 13px; }
+
+pre {
+  margin: 0; padding: 10px 12px; max-height: 220px; overflow: auto;
+  border-radius: var(--ip-radius-m); background: var(--ip-bg-2); border: 1px solid var(--ip-stroke-2);
+  font-family: var(--ip-mono); font-size: 13px; line-height: 20px; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+
+.var {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  padding: 5px 8px; text-align: left; cursor: grab;
+  border: 1px solid var(--ip-stroke-2); border-radius: var(--ip-radius-m); background: var(--ip-bg-1);
+  &:hover { border-color: var(--ip-brand); background: var(--ip-brand-bg-3); }
+  @include f.focus-ring;
+}
+.token { font-family: var(--ip-mono); font-size: 12px; color: var(--ip-brand); }
+.sample { font-size: 11px; color: var(--ip-fg-3); text-align: right; }
+
+footer {
+  padding: 16px 24px 20px; border-top: 1px solid var(--ip-stroke-3);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+}
+.btn { @include f.button; }
+.btn-primary { @include f.button-primary; }
+.btn-subtle { @include f.button-subtle; }
+.link { color: var(--ip-brand); font-weight: 400; margin-right: auto; }
