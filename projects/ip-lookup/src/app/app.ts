@@ -7,7 +7,7 @@ import { LookupStore } from './features/lookup/lookup.store';
   imports: [LookupPage],
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
   protected readonly store = inject(LookupStore);

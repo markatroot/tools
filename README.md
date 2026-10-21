@@ -5,7 +5,7 @@ Angular multi-project workspace (SCSS, component prefix `ip`).
 ```
 projects/
   ip-lookup/      App: AbuseIPDB IP reputation check (Fluent 2 UI)
-  abuseipdb/      Library: API client, mock client, models, IP parsing, text templates
+  abuseipdb/      Library: API client, mock client, models, IP parsing, text templates, result UI components
   ui-styles/      Shared Fluent tokens + SCSS mixins (@use 'fluent' as f;)
 ```
 

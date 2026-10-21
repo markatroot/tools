@@ -22,7 +22,7 @@ export const ABUSE_CATEGORIES: Readonly<Record<number, string>> = {
   20: 'Exploited Host',
   21: 'Web App Attack',
   22: 'SSH',
-  23: 'IoT Targeted'
+  23: 'IoT Targeted',
 };
 
 export function categoryName(id: number): string {
@@ -36,9 +36,12 @@ export interface CategoryCount {
 }
 
 /** Counts categories across a result's verbose reports, most frequent first. */
-export function countCategories(reports: { categories: number[] }[] | undefined): CategoryCount[] {
+export function countCategories(
+  reports: { categories: number[] }[] | undefined,
+): CategoryCount[] {
   const counts = new Map<number, number>();
-  for (const r of reports ?? []) for (const c of r.categories) counts.set(c, (counts.get(c) ?? 0) + 1);
+  for (const r of reports ?? [])
+    for (const c of r.categories) counts.set(c, (counts.get(c) ?? 0) + 1);
   return [...counts.entries()]
     .map(([id, count]) => ({ id, name: categoryName(id), count }))
     .sort((a, b) => b.count - a.count);

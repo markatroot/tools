@@ -2,7 +2,10 @@
   <aside class="form-pane">
     <div class="intro">
       <h1>Look up IP addresses</h1>
-      <p>Paste one address or a list, separated by new lines, commas or spaces. IPv4 and IPv6 accepted, up to 100 per check.</p>
+      <p>
+        Paste one address or a list, separated by new lines, commas or spaces.
+        IPv4 and IPv6 accepted, up to 100 per check.
+      </p>
     </div>
 
     <ip-api-key-field [(value)]="store.apiKey" />
@@ -11,18 +14,70 @@
 
     <div class="field">
       <label for="age">Reports from the last</label>
-      <select id="age" class="select" [value]="store.maxAgeInDays()" (change)="onDays($event)">
+      <select
+        id="age"
+        class="select"
+        [value]="store.maxAgeInDays()"
+        (change)="onDays($event)"
+      >
         @for (d of windows; track d) {
-          <option [value]="d" [selected]="d === store.maxAgeInDays()">{{ d }} days</option>
+        <option [value]="d" [selected]="d === store.maxAgeInDays()">
+          {{ d }} days
+        </option>
         }
       </select>
     </div>
 
-    <ip-fluent-switch [(checked)]="store.verbose">Include individual reports</ip-fluent-switch>
+    <ip-fluent-switch [(checked)]="store.verbose"
+      >Include individual reports</ip-fluent-switch
+    >
+
+    <div class="field">
+      <span class="label">Text output</span>
+      <div class="template-row">
+        <span class="template-summary">{{ templateSummary() }}</span>
+        <button type="button" class="btn" (click)="editorOpen.set(true)">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 20h9" />
+            <path
+              d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.86z"
+            /></svg
+          >Edit template
+        </button>
+      </div>
+    </div>
 
     <div class="actions">
-      <button type="button" class="btn-primary grow" [disabled]="!store.canRun()" (click)="store.run()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <button
+        type="button"
+        class="btn-primary grow"
+        [disabled]="!store.canRun()"
+        (click)="store.run()"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
         {{ runLabel() }}
       </button>
       <button type="button" class="btn" (click)="store.clear()">Clear</button>
@@ -31,65 +86,203 @@
 
   <main class="results-pane">
     @if (store.results(); as results) {
-      <ip-summary-cards [groups]="store.groups()" [(filter)]="store.filter" />
+    <ip-summary-cards [groups]="store.groups()" [(filter)]="store.filter" />
 
-      <div class="results-row">
-        <section class="results-card" [class.busy]="store.loading()">
-          <div class="results-head">
-            <span class="results-title">{{ resultsTitle() }}</span>
-            <div class="toolbar">
-              <div class="toggle" role="group" aria-label="View">
-                <button type="button" [class.on]="store.view() === 'table'" [attr.aria-pressed]="store.view() === 'table'" (click)="store.view.set('table')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>Table</button>
-                <button type="button" [class.on]="store.view() === 'text'" [attr.aria-pressed]="store.view() === 'text'" (click)="store.view.set('text')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 6.1H3"/><path d="M21 12.1H3"/><path d="M15.1 18H3"/></svg>Text</button>
-              </div>
-              <select class="select" aria-label="Sort by" [value]="store.sort()" (change)="onSort($event)">
-                <option value="score">Sort: Abuse score</option>
-                <option value="reports">Sort: Reports</option>
-                <option value="input">Sort: Input order</option>
-              </select>
-              <button type="button" class="btn" (click)="editorOpen.set(true)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.86z"/></svg>Edit text template</button>
-              <button type="button" class="btn" [disabled]="!store.visible().length" (click)="store.exportCsv()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>Export</button>
+    <div class="results-row">
+      <section class="results-card" [class.busy]="store.loading()">
+        <div class="results-head">
+          <span class="results-title">{{ resultsTitle() }}</span>
+          <div class="toolbar">
+            <div class="toggle" role="group" aria-label="View">
+              <button
+                type="button"
+                [class.on]="store.view() === 'table'"
+                [attr.aria-pressed]="store.view() === 'table'"
+                (click)="store.view.set('table')"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <path d="M3 9h18" />
+                  <path d="M3 15h18" />
+                  <path d="M9 3v18" /></svg
+                >Table
+              </button>
+              <button
+                type="button"
+                [class.on]="store.view() === 'text'"
+                [attr.aria-pressed]="store.view() === 'text'"
+                (click)="store.view.set('text')"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M17 6.1H3" />
+                  <path d="M21 12.1H3" />
+                  <path d="M15.1 18H3" /></svg
+                >Text
+              </button>
             </div>
+            <select
+              class="select"
+              aria-label="Sort by"
+              [value]="store.sort()"
+              (change)="onSort($event)"
+            >
+              <option value="score">Sort: Abuse score</option>
+              <option value="reports">Sort: Reports</option>
+              <option value="input">Sort: Input order</option>
+            </select>
+            <button type="button" class="btn" (click)="editorOpen.set(true)">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 20h9" />
+                <path
+                  d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.86z"
+                /></svg
+              >Edit text template
+            </button>
+            <button
+              type="button"
+              class="btn"
+              [disabled]="!store.visible().length"
+              (click)="store.exportCsv()"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 15V3" />
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <path d="m7 10 5 5 5-5" /></svg
+              >Export
+            </button>
           </div>
+        </div>
 
-          @if (store.view() === 'table') {
-            <ip-results-table [results]="store.visible()" [(selectedIp)]="store.selectedIp" />
-          } @else {
-            <ip-text-output [text]="store.outputText()" [count]="store.visible().length" />
-          }
-
-          @if (store.skipped().length) {
-            <div class="notice warning"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span>{{ skippedText() }}</span></div>
-          }
-          @for (f of store.failed(); track f.ipAddress) {
-            <div class="notice danger"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span><code>{{ f.ipAddress }}</code> {{ f.message }}</span></div>
-          }
-        </section>
-
-        @if (store.selected(); as sel) {
-          <ip-detail-panel
-            [result]="sel"
-            [maxAgeInDays]="store.checkedWindow()"
-            [verbose]="store.checkedVerbose()"
-            (closed)="store.selectedIp.set(null)" />
+        @if (store.view() === 'table') {
+        <ip-results-table
+          [results]="store.visible()"
+          [(selectedIp)]="store.selectedIp"
+        />
+        } @else {
+        <ip-text-output
+          [text]="store.outputText()"
+          [count]="store.visible().length"
+        />
+        } @if (store.skipped().length) {
+        <div class="notice warning">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v4" />
+            <path d="M12 16h.01" /></svg
+          ><span>{{ skippedText() }}</span>
+        </div>
+        } @for (f of store.failed(); track f.ipAddress) {
+        <div class="notice danger">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v4" />
+            <path d="M12 16h.01" /></svg
+          ><span><code>{{ f.ipAddress }}</code> {{ f.message }}</span>
+        </div>
         }
-      </div>
+      </section>
+
+      @if (store.selected(); as sel) {
+      <ip-detail-panel
+        [result]="sel"
+        [maxAgeInDays]="store.checkedWindow()"
+        [verbose]="store.checkedVerbose()"
+        (closed)="store.selectedIp.set(null)"
+      />
+      }
+    </div>
     } @else {
-      <div class="empty">
-        <span class="empty-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
-        <strong>No results yet</strong>
-        <span>Enter your API key and addresses, then run a check.</span>
-      </div>
+    <div class="empty">
+      <span class="empty-icon"
+        ><svg
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+          <path d="M2 12h20" /></svg
+      ></span>
+      <strong>No results yet</strong>
+      <span>Enter your API key and addresses, then run a check.</span>
+    </div>
     }
   </main>
 </div>
 
 @if (editorOpen()) {
-  <ip-template-editor
-    [template]="store.template()"
-    [separator]="store.separator()"
-    [previewResults]="previewResults()"
-    [context]="store.templateContext()"
-    (saved)="saveTemplate($event)"
-    (closed)="editorOpen.set(false)" />
+<ip-template-editor
+  [template]="store.template()"
+  [separator]="store.separator()"
+  [previewResults]="previewResults()"
+  [context]="store.templateContext()"
+  (saved)="saveTemplate($event)"
+  (closed)="editorOpen.set(false)"
+/>
 }

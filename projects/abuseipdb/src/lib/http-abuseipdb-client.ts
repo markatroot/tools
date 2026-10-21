@@ -15,20 +15,37 @@ export class HttpAbuseIpdbClient extends AbuseIpdbClient {
     this.concurrency = this.config.concurrency ?? 4;
   }
 
-  check(ipAddress: string, apiKey: string, options: CheckOptions): Observable<CheckOutcome> {
-    let params = new HttpParams().set('ipAddress', ipAddress).set('maxAgeInDays', options.maxAgeInDays);
+  check(
+    ipAddress: string,
+    apiKey: string,
+    options: CheckOptions,
+  ): Observable<CheckOutcome> {
+    let params = new HttpParams()
+      .set('ipAddress', ipAddress)
+      .set('maxAgeInDays', options.maxAgeInDays);
     if (options.verbose) params = params.set('verbose', 'true');
-    const headers = new HttpHeaders({ Key: apiKey, Accept: 'application/json' });
+    const headers = new HttpHeaders({
+      Key: apiKey,
+      Accept: 'application/json',
+    });
 
     return this.http
-      .get<CheckResponse>(this.config.baseUrl + '/check', { params, headers, observe: 'response' })
+      .get<CheckResponse>(this.config.baseUrl + '/check', {
+        params,
+        headers,
+        observe: 'response',
+      })
       .pipe(
-        map(res => {
+        map((res) => {
           const limit = Number(res.headers.get('X-RateLimit-Limit'));
           const remaining = Number(res.headers.get('X-RateLimit-Remaining'));
-          const rateLimit: RateLimit | null = res.headers.has('X-RateLimit-Limit') ? { limit, remaining } : null;
+          const rateLimit: RateLimit | null = res.headers.has(
+            'X-RateLimit-Limit',
+          )
+            ? { limit, remaining }
+            : null;
           return { result: res.body!.data, rateLimit };
-        })
+        }),
       );
   }
 }

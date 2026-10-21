@@ -1,10 +1,15 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  signal,
+} from '@angular/core';
 
 @Component({
   selector: 'ip-text-output',
   templateUrl: './text-output.html',
   styleUrl: './text-output.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextOutput {
   readonly text = input.required<string>();

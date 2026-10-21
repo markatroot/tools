@@ -1,25 +1,48 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { ApiKeyField } from '../../shared/api-key-field/api-key-field';
 import { IpListInput } from '../../shared/ip-list-input/ip-list-input';
 import { FluentSwitch } from '../../shared/fluent-switch/fluent-switch';
-import { SummaryCards } from './summary-cards/summary-cards';
-import { ResultsTable } from './results-table/results-table';
-import { TextOutput } from './text-output/text-output';
-import { IpDetailPanel } from './ip-detail-panel/ip-detail-panel';
-import { TemplateEditor } from './template-editor/template-editor';
-import { LookupStore, ResultFilter, ResultSort } from './lookup.store';
-import { Separator } from '@ip-tools/abuseipdb';
+import { LookupStore, ResultSort } from './lookup.store';
+import {
+  IpDetailPanel,
+  ResultFilter,
+  ResultsTable,
+  SEPARATORS,
+  Separator,
+  SummaryCards,
+  TemplateEditor,
+  TextOutput,
+  templateLabel,
+} from '@ip-tools/abuseipdb';
 
 const FILTER_TITLES: Record<ResultFilter, string> = {
-  all: 'All results', high: 'High risk', suspicious: 'Suspicious', clean: 'Low or clean'
+  all: 'All results',
+  high: 'High risk',
+  suspicious: 'Suspicious',
+  clean: 'Low or clean',
 };
 
 @Component({
   selector: 'ip-lookup-page',
-  imports: [ApiKeyField, IpListInput, FluentSwitch, SummaryCards, ResultsTable, TextOutput, IpDetailPanel, TemplateEditor],
+  imports: [
+    ApiKeyField,
+    IpListInput,
+    FluentSwitch,
+    SummaryCards,
+    ResultsTable,
+    TextOutput,
+    IpDetailPanel,
+    TemplateEditor,
+  ],
   templateUrl: './lookup-page.html',
   styleUrl: './lookup-page.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LookupPage {
   protected readonly store = inject(LookupStore);
@@ -35,16 +58,37 @@ export class LookupPage {
     return n > 1 ? 'Check ' + n + ' addresses' : 'Check address';
   });
 
-  protected readonly resultsTitle = computed(() => FILTER_TITLES[this.store.filter()] + ' (' + this.store.visible().length + ')');
+  protected readonly resultsTitle = computed(
+    () =>
+      FILTER_TITLES[this.store.filter()] +
+      ' (' +
+      this.store.visible().length +
+      ')',
+  );
 
   protected readonly skippedText = computed(() => {
     const s = this.store.skipped();
-    return 'Skipped ' + s.length + ' invalid ' + (s.length > 1 ? 'entries' : 'entry') + ': ' + s.join(', ');
+    return (
+      'Skipped ' +
+      s.length +
+      ' invalid ' +
+      (s.length > 1 ? 'entries' : 'entry') +
+      ': ' +
+      s.join(', ')
+    );
   });
+
+  protected readonly templateSummary = computed(
+    () =>
+      templateLabel(this.store.template()) +
+      ' · ' +
+      SEPARATORS[this.store.separator()].label.toLowerCase() +
+      ' between results',
+  );
 
   protected readonly previewResults = computed(() => {
     const sel = this.store.selected();
-    const rest = (this.store.results() ?? []).filter(r => r !== sel);
+    const rest = (this.store.results() ?? []).filter((r) => r !== sel);
     return (sel ? [sel, ...rest] : rest).slice(0, 2);
   });
 

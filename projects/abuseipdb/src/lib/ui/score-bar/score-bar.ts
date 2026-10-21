@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { riskOf } from '@ip-tools/abuseipdb';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
+import { riskOf } from '../../risk';
 import { RiskBadge } from '../risk-badge/risk-badge';
 
 @Component({
@@ -13,7 +18,7 @@ import { RiskBadge } from '../risk-badge/risk-badge';
     <ip-risk-badge [score]="score()" />
   `,
   styleUrl: './score-bar.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScoreBar {
   readonly score = input.required<number>();

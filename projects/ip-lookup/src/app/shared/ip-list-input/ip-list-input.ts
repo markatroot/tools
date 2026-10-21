@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+} from '@angular/core';
 import { ParsedIpList, segmentIpText } from '@ip-tools/abuseipdb';
 
 /** Textarea with inline valid/invalid colouring (mirror layer behind a transparent textarea). */
@@ -6,7 +12,7 @@ import { ParsedIpList, segmentIpText } from '@ip-tools/abuseipdb';
   selector: 'ip-ip-list-input',
   templateUrl: './ip-list-input.html',
   styleUrl: './ip-list-input.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IpListInput {
   readonly text = model('');
@@ -14,7 +20,9 @@ export class IpListInput {
   readonly minRows = input(8);
 
   protected readonly segments = computed(() => segmentIpText(this.text()));
-  protected readonly rows = computed(() => Math.max(this.minRows(), this.text().split('\n').length + 1));
+  protected readonly rows = computed(() =>
+    Math.max(this.minRows(), this.text().split('\n').length + 1),
+  );
 
   protected onInput(e: Event): void {
     this.text.set((e.target as HTMLTextAreaElement).value);

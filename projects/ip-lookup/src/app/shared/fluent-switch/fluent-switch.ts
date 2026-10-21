@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, model } from '@angular/core';
     </label>
   `,
   styleUrl: './fluent-switch.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FluentSwitch {
   readonly checked = model(false);

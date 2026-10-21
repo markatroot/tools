@@ -9,4 +9,6 @@ export interface AbuseIpdbConfig {
   mock?: boolean;
 }
 
-export const ABUSEIPDB_CONFIG = new InjectionToken<AbuseIpdbConfig>('ABUSEIPDB_CONFIG');
+export const ABUSEIPDB_CONFIG = new InjectionToken<AbuseIpdbConfig>(
+  'ABUSEIPDB_CONFIG',
+);

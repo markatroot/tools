@@ -21,8 +21,14 @@
 
 .field {
   display: flex; flex-direction: column; gap: 4px;
-  label { @include f.label; }
+  label, .label { @include f.label; }
 }
+
+.template-row {
+  display: flex; gap: 8px; align-items: center; justify-content: space-between;
+  padding: 8px 8px 8px 12px; border: 1px solid var(--ip-stroke-2); border-radius: var(--ip-radius-m);
+}
+.template-summary { @include f.caption; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .select { @include f.select; }
 .btn { @include f.button; }

@@ -1,9 +1,0 @@
-@for (c of cards(); track c.key) {
-  <button type="button" class="card" [class.on]="filter() === c.key" [attr.aria-pressed]="filter() === c.key" (click)="filter.set(c.key)">
-    <span class="dot-wrap" [class]="c.key"><span class="dot"></span></span>
-    <span class="text">
-      <span class="count">{{ c.count }}</span>
-      <span class="label">{{ c.label }}</span>
-    </span>
-  </button>
-}

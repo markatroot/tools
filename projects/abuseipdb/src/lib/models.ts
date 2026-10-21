@@ -49,5 +49,10 @@ export interface CheckOutcome {
 }
 
 export type BulkCheckItem =
-  | { ok: true; ipAddress: string; result: IpCheckResult; rateLimit: RateLimit | null }
+  | {
+      ok: true;
+      ipAddress: string;
+      result: IpCheckResult;
+      rateLimit: RateLimit | null;
+    }
   | { ok: false; ipAddress: string; message: string; status: number };
