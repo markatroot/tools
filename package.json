@@ -7,7 +7,8 @@
     "start": "ng serve ip-lookup",
     "build": "ng build ip-lookup",
     "build:lib": "ng build abuseipdb",
-    "watch": "ng build ip-lookup --watch --configuration development"
+    "watch": "ng build ip-lookup --watch --configuration development",
+    "deploy": "ng deploy ip-lookup"
   },
   "dependencies": {
     "@angular/common": "^20.3.0",
@@ -22,6 +23,7 @@
     "@angular/build": "^20.3.0",
     "@angular/cli": "^20.3.0",
     "@angular/compiler-cli": "^20.3.0",
+    "angular-cli-ghpages": "^3.1.2",
     "ng-packagr": "^20.3.0",
     "typescript": "~5.9.2"
   }

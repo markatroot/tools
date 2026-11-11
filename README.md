@@ -24,9 +24,9 @@ Development uses generated data (`useMock: true` in
 `projects/ip-lookup/proxy.conf.json` forwards to `https://api.abuseipdb.com`.
 
 AbuseIPDB does not allow direct browser (CORS) calls, so production needs a
-backend or reverse proxy that serves the same path. Point
-`abuseIpdbBaseUrl` in `environment.ts` at it. For production, keep the API key
-on the server rather than in the browser.
+CORS proxy: `proxy/` holds a Cloudflare Worker for this. Deploy it with
+`cd proxy && npx wrangler deploy`, then set `abuseIpdbBaseUrl` in
+`environment.ts` to `<worker-url>/api/v2`.
 
 ## Add another app
 
